@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    api: '/api/chat',
-    initialInput: exampleInput,
-  })
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({
+      api: '/api/chat',
+      initialInput: exampleInput,
+    })
 
   const combinedAssistantMessages = messages.reduce((acc, m) => {
     if (m.role === 'assistant') {
@@ -63,15 +64,17 @@ export default function Chat() {
             </div>
           )
         })}
+
+        {isLoading ? (
+          <div className="text-sm text-gray-500">Parsing...</div>
+        ) : null}
       </div>
     </div>
   )
 }
 
-const exampleInput = `
-Groceries:
+const exampleInput = `Groceries:
 3 Bannans
 4 Apples
 Soy sauce
-a few milks
-`
+a few milks`
