@@ -36,26 +36,15 @@ export default function Chat() {
 
   const data: { name: string; quantity: number }[] = parse(validYaml)
   return (
-    <div className="space-y-8">
-      <form onSubmit={handleSubmit} className="flex space-x-2 items-end w-full">
-        <Textarea
-          value={input}
-          onChange={handleInputChange}
-          aria-label="Your list..."
-          placeholder="Your list..."
-          className="h-32"
-        />
-        <Button type="submit">Send</Button>
-      </form>
-
-      <div className="space-y-2">
+    <div className="max-w-2xl w-full mx-auto px-6 pt-8 pb-6 space-y-8 min-h-screen flex flex-col">
+      <div className="space-y-4 flex-1">
         {data?.map((item, i) => {
           return (
-            <div key={i} className="items-top flex space-x-3">
+            <div key={i} className="items-top flex space-x-3 items-center">
               <Checkbox id={`item${i}`} />
               <label
                 htmlFor={`item${i}`}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-xl font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 {typeof item.quantity === 'number' && item.quantity > 1
                   ? `${item.quantity} ${item.name}`
@@ -66,9 +55,23 @@ export default function Chat() {
         })}
 
         {isLoading ? (
-          <div className="text-sm text-gray-500">Parsing...</div>
+          <div className="text-sm pt-4 text-gray-500">Parsing...</div>
         ) : null}
       </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col space-y-2 items-end w-full"
+      >
+        <Textarea
+          value={input}
+          onChange={handleInputChange}
+          aria-label="Your list..."
+          placeholder="Your list..."
+          className="h-32"
+        />
+        <Button type="submit">Send</Button>
+      </form>
     </div>
   )
 }
