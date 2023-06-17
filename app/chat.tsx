@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: '/api/chat',
+    initialInput: exampleInput,
   })
 
   const combinedAssistantMessages = messages.reduce((acc, m) => {
@@ -67,7 +68,7 @@ export default function Chat() {
   )
 }
 
-const example = `
+const exampleInput = `
 Groceries:
 3 Bannans
 4 Apples
