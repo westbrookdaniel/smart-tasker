@@ -1,7 +1,10 @@
 'use client'
 
 import { useChat } from 'ai/react'
-import { parse, stringify } from 'yaml'
+import { parse } from 'yaml'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -31,34 +34,35 @@ export default function Chat() {
 
   const data: { name: string; quantity: number }[] = parse(validYaml)
   return (
-    <div>
-      <ul>
-        {data?.map((item, i) => {
-          return (
-            <li key={i}>
-              {typeof item.quantity === 'number'
-                ? `${item.quantity} ${item.name}`
-                : item.name}
-            </li>
-          )
-        })}
-      </ul>
-
+    <div className="space-y-8">
       <form onSubmit={handleSubmit} className="flex space-x-2 items-end w-full">
-        <textarea
-          className="border-gray-400 border-2 rounded-md px-2 py-1 flex-1"
+        <Textarea
           value={input}
           onChange={handleInputChange}
           aria-label="Your list..."
           placeholder="Your list..."
+          className="h-32"
         />
-        <button
-          type="submit"
-          className="border-gray-400 border-2 rounded-md px-3 "
-        >
-          Send
-        </button>
+        <Button type="submit">Send</Button>
       </form>
+
+      <div className="space-y-2">
+        {data?.map((item, i) => {
+          return (
+            <div key={i} className="items-top flex space-x-3">
+              <Checkbox id={`item${i}`} />
+              <label
+                htmlFor={`item${i}`}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {typeof item.quantity === 'number' && item.quantity > 1
+                  ? `${item.quantity} ${item.name}`
+                  : item.name}
+              </label>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
